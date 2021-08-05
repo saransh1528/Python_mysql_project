@@ -65,6 +65,7 @@ def warehouse_ment():
         menu()
     else:
         warehouse_ment()
+
 def client_ment():
     print("1. Add a Client")
     print("2. Delete a Client")
@@ -241,9 +242,16 @@ def order_ship():
             qwer = int(input("Enter product gcode:"))
             tyui = int(input("Enter product pqty:"))
             sql = (f"update product set pqty = pqty - {tyui} where gcode = {qwer}; ")
+
             mycursor.execute(sql)
+            yut = (f"select gprice * {tyui} from product where gcode = {qwer}")
+            mycursor.execute(yut)
+            recor = mycursor.fetchall()
+            print(f"Your Bill Amount is {recor}")
+
             conn.commit()
             print("Your Order has been placed")
+
     elif len(records) > 1:
         print("FOUND TWO RECORDS")
         print("Going back to menu.")
