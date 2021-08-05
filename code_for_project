@@ -1,0 +1,306 @@
+import mysql.connector
+def menu():
+    while True:
+        print("\t\t>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("\t\tGROCERY STORE MANAGEMENT SYSTEM")
+        print("\t\t<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print("\t\t 1. PRODUCTS")
+        print("\t\t 2. WAREHOUSE")
+        print("\t\t 3. CLIENT")
+        print("\t\t 4. DATABASE SETUP")
+        print("\t\t 5. FETCH ALL THE RECORDS")
+        print("\t\t 6. LOGIN TO ORDER FOR MEMBERSHIP MEMBERS")
+        print("\t\t 7. EXIT\n")
+        print("\t\t>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        n = int(input("Enter your choice:"))
+        if n == 1:
+            product_ment()
+        if n == 2:
+            warehouse_ment()
+        if n == 3:
+            client_ment()
+        if n == 4:
+            database_ment()
+        if n == 5:
+            fetch_ment()
+        if n == 6:
+            membership_ment()
+        if n == 7:
+            break
+def product_ment():
+    print("1. Add Product")
+    print("2. Delete Product")
+    print("3. Update Product")
+    print("4. Check for availability")
+    print("5. Back")
+    iuiu = input("Enter Your Choice:")
+    if iuiu == 1:
+        add_product()
+    elif iuiu == 2:
+        delete_product()
+    elif iuiu == 3:
+        update_product()
+    elif iuiu == 4:
+        avablity()
+    elif iuiu == 5:
+        menu()
+    else:
+        product_ment()
+def warehouse_ment():
+    print("1. Add Stock")
+    print("2. Delete Add Stock")
+    print("3. Update Stock")
+    print("4. Shift Stock to the Store")
+    print("5. Back")
+    iu = input("Enter Your Choice:")
+    if iu == 1:
+        add_stock()
+    elif iu == 2:
+        delete_stock()
+    elif iu == 3:
+        update_stock()
+    elif iu == 4:
+        quantity_to_store()
+    elif iu == 5:
+        menu()
+    else:
+        warehouse_ment()
+def client_ment():
+    print("1. Add a Client")
+    print("2. Delete a Client")
+    print("3. Update a Client")
+    print("4. Back")
+    iuiu = input("Enter Your Choice:")
+    if yuo == 1:
+        add_product()
+    elif yuo == 2:
+        delete_product()
+    elif yuo == 3:
+        update_product()
+    elif yuo == 4:
+        menu()
+    else:
+        product_ment()
+def database_ment():
+    while True:
+        print("1. Database creation")
+        print("2. List Database")
+        print("3. Back (Main Menu)")
+        p = int(input("Enter Your Choice :"))
+        if p == 1:
+            create_database()
+        elif p == 2:
+            list_database()
+        elif p == 3:
+            menu()
+        else:
+            database_ment()
+
+def create_database():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+
+    print("Creating PRODUCT table\n")
+    sql = "CREATE TABLE if not exists product (gcode int(4) PRIMARY KEY,gname char(30) NOT NULL, gprice float(8,2)NOT NULL,pqty int(5))"
+    mycursor.execute(sql)
+    print("PRODUCT table created\n")
+
+    print("Creating WAREHOUSE table\n")
+    sql = "CREATE TABLE if not exists warehouse (gcode int(4) PRIMARY KEY,gname char(30) NOT NULL,gqty int(4) );"
+    mycursor.execute(sql)
+    print("WAREHOUSE table created\n")
+
+    print("Creating CLIENT table\n")
+    sql = "CREATE TABLE if not exists client(cid char(6) PRIMARY KEY,cname char(30) NOT NULL,cnum int(11) NOT NULL,cship char(10)NOT NULL);"
+    mycursor.execute(sql)
+    print("USER table created\n")
+
+    print("Creating LOGIN table\n")
+    sql = "CREATE TABLE if not exists login(cid char(6) PRIMARY KEY,login_id char(50) NOT NULL,login_password char(50) NOT NULL) ;"
+    mycursor.execute(sql)
+    print("LOGIN table created\n")
+    mycursor.close()
+
+def list_database():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    sql = "show tables;"
+    mycursor.execute(sql)
+    for i in mycursor:
+        print(i)
+    mycursor.close()
+
+def fetch_ment():
+    while True:
+        print("1. Fetch all the products")
+        print("2. Fetch all the warehouse records")
+        print("3. Fetch all the client records")
+        print("4. Fetch all login records")
+        print("5. Back")
+        j = int(input("Enter Your Choice:"))
+        if j == 1:
+            product_fetch()
+        elif j == 2:
+            warehouse_fetch()
+        elif j == 3:
+            client_fetch()
+        elif j == 4:
+            get_login_record()
+        elif j == 5:
+            menu()
+        else:
+            fetch_ment()
+
+def product_fetch():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    mycursor.execute('select * from product;')
+    records = mycursor.fetchall()
+    print("Printing each record in PRODUCT:\n")
+    for row in records:
+        print("Code:", row[0])
+        print("Name:", row[1])
+        print("Price:", row[2])
+        print("Quantity:",row[3])
+        print("\n")
+    conn.commit()
+
+def warehouse_fetch():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    mycursor.execute('select * from warehouse;')
+    records = mycursor.fetchall()
+    print("Printing each record in WAREHOUSE:\n")
+    for row in records:
+        print("Code:", row[0])
+        print("Name:", row[1])
+        print("Price:", row[2])
+        print("Quantity:", row[3])
+        print("\n")
+    conn.commit()
+
+def client_fetch():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    mycursor.execute('select * from client;')
+    records = mycursor.fetchall()
+    print("Printing each record in CLIENT:\n")
+    for row in records:
+        print("ID:", row[0])
+        print("Name:", row[1])
+        print("Number:", row[2])
+        print("Membership:", row[3])
+        print("\n")
+    conn.commit()
+
+def membership_ment():
+    print("1. Login for Membership Member")
+    print("2. Database for Membership Member")
+    print("3. Back")
+    nm = int(input("Enter Your Choice:"))
+    if nm == 1:
+        login_membership()
+    elif nm == 2:
+        database_membership()
+    elif nm == 3:
+        menu()
+
+def login_membership():
+    print("1. Login for Ordering")
+    print("2. Login Database")
+    print("3. Add a login information")
+    print("4. Back")
+    ui = int(input("Enter Your Choice:"))
+    if ui == 1:
+        order_ship()
+    elif ui == 2:
+        get_login_record()
+    elif ui == 3:
+        adding_login()
+    elif ui == 4:
+        menu()
+    else:
+        login_membership()
+        
+def order_ship():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    dfr = input("Enter your Login ID:")
+    yue = input("Enter your Login password:")
+
+    sql = (f"select * from login where login_id = '{dfr}' and login_password = '{yue}';")
+    mycursor.execute(sql)
+    records = mycursor.fetchall()
+    if len(records) == 1:
+        print("Do you want to order from our store?")
+        print("Y/N?")
+        vhh = input("Enter your choice")
+        if vhh == 'Y':
+            print("Printing the products for your reference:")
+            product_fetch()
+            qwer = int(input("Enter product gcode:"))
+            tyui = int(input("Enter product pqty:"))
+            sql = (f"update product set pqty = pqty - {tyui} where gcode = {qwer}; ")
+            mycursor.execute(sql)
+            conn.commit()
+            print("Your Order has been placed")
+    elif len(records) > 1:
+        print("FOUND TWO RECORDS")
+        print("Going back to menu.")
+        menu()
+    else:
+        print("INCORRECT LOGIN INFO")
+        print("Want to type again?")
+        fgk = input("Y/N?")
+        if fgk == 'Y':
+            order_ship()
+        elif fgk == 'N':
+            menu()
+    conn.commit()
+
+    
+    
+    
+def adding_login():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    uoi = input("Enter Cust_ID  to add to the database:")
+    tyu = input("Enter Login ID to add to the database:")
+    yui = input("Enter Password to add to the database:")
+    sql = '''INSERT INTO login values(%s,%s,%s);'''
+
+    val = (uoi, tyu, yui)
+    mycursor.execute(sql,val)
+    conn.commit()
+    print("LOGIN ID added to the database\n")
+
+
+def database_membership():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    print("Showing Membership Members\n")
+    mycursor.execute("select * from client where cship ='YES';")
+    records = mycursor.fetchall()
+    print("Printing each record in CLIENT:\n")
+    for row in records:
+        print("ID:", row[0])
+        print("Name:", row[1])
+        print("Number:", row[2])
+        print("Membership:", row[3])
+        print("\n")
+    conn.commit()
+
+def get_login_record():
+    conn = mysql.connector.connect(host="localhost", user="root", passwd="@Error404", database="grocery")
+    mycursor = conn.cursor()
+    print("Showing Login Information\n")
+    mycursor.execute("select * from login;")
+    records = mycursor.fetchall()
+    print("Printing each record in LOGIN:\n")
+    for row in records:
+        print("CID:", row[0])
+        print("Login ID:", row[1])
+        print("Login Password:", row[2])
+        print("\n")
+
+print(menu())
